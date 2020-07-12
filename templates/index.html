@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Astr</title>
+	<meta name="viewport" content="width=device-width">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='multi-select.css')}}">
+	<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+	<style>
+		html, body{
+			margin:0;
+			padding:0;
+			width:100%;
+		}
+		.nav{
+			margin:30px;
+			margin-right:50px;
+		}
+		.brand{
+			font-size:80px;
+			color:#303030;
+		}
+		.img_container{
+			margin-top:100px;
+		}
+	</style>
+</head>
+<body>
+<div class='row is-center img_container'>
+	<a href='/'><img src="{{url_for('static', filename='all.png')}}" style='max-height:200px;max-width:200px;'></img></a>
+</div>
+<a class='brand is-center' href='/'>Astr</a>
+<nav class="nav">
+	<div class="nav-center">
+		<div class="tabs">
+			<a href='/insights'>Insights</a>
+			<a href='/screen'>Screening</a>
+			<a href='/mind'>Mind</a>
+		</div>
+	</div>
+</nav>
+</body>
+</html>

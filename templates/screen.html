@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Astr Screen</title>
+	<meta name="viewport" content="width=device-width">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='multi-select.css')}}">
+	<link rel="stylesheet" href="https://unpkg.com/chota@latest">
+	<style>
+		html, body{
+			margin:0;
+			padding:0;
+		}
+		.nav{
+			margin:30px;
+			margin-right:50px;
+		}
+		#form{
+			margin-left:50px;
+			margin-right:50px;
+			margin-top:30px;
+			margin-bottom:20px;
+		}
+		.dv_cont{
+			margin-top:30px;
+		}
+		.request_code{
+			height:300px;
+			overflow:scroll;
+			margin-left:50px;
+		}
+		.response_code{
+			height:300px;
+			overflow:scroll;
+			margin-right:50px;
+		}
+		.heading_1{
+			margin-bottom:30px;
+		}
+		.heading_2{
+			margin-top:30px;
+		}
+		.sub{
+			margin-bottom:50px;
+		}
+		@media screen and (max-width: 600px) {
+			.request_code{
+				margin-left:0px;
+				margin-right:0px;
+			}
+			.response_code{
+				margin-left:0px;
+				margin-right:0px;
+			}
+		}
+	</style>
+	<script>
+		function disable(){
+			$('input').prop("disabled", true);
+		}
+		function enable(){
+			$('input').prop("disabled", false);
+		}
+		function populate(frm, data) {
+			
+		}
+		$(function(){
+			$('.sub').click(function(e){
+				e.preventDefault();
+				var data = $('#form').serializeArray();
+				console.log(data);
+
+				disable();
+
+				$.ajax({
+					url: '/screen',
+					type: 'POST',
+					data: data,
+					success: function(data){
+						$('.response_code').text(JSON.stringify(data, null, 2));
+						enable();
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { 
+						$('.response_code').text(errorThrown); 
+						$('.response_code').append('\nPlease check your input.');
+						enable();
+					}
+				});
+
+			});
+			$('#form').keydown(function(e){
+				var data = $('#form').serializeArray();
+				var data_string = JSON.stringify(data, null, 2);
+				$('.request_code').text(data_string);
+			});
+			$('#form').keyup(function(e){
+				var data = $('#form').serializeArray();
+				var data_string = JSON.stringify(data, null, 2);
+				$('.request_code').text(data_string);
+			});
+			var presets = {"0":[{"name":"age","value":""},{"name":"sex","value":""},{"name":"height","value":""},{"name":"weight","value":""},{"name":"sbp","value":""},{"name":"dbp","value":""},{"name":"chol","value":""},{"name":"ogtt","value":""},{"name":"smoke","value":""},{"name":"alc","value":""},{"name":"phys","value":""},{"name":"preg","value":""},{"name":"insu","value":""}],"1":[{"name":"age","value":"32"},{"name":"sex","value":"0"},{"name":"height","value":"100"},{"name":"weight","value":"80"},{"name":"sbp","value":"110"},{"name":"dbp","value":"70"},{"name":"chol","value":"250"},{"name":"ogtt","value":"130"},{"name":"smoke","value":"1"},{"name":"alc","value":"0"},{"name":"phys","value":"0"},{"name":"preg","value":"1"},{"name":"insu","value":"100"}],"2":[{"name":"age","value":"40"},{"name":"sex","value":"1"},{"name":"height","value":"120"},{"name":"weight","value":"60"},{"name":"sbp","value":"110"},{"name":"dbp","value":"60"},{"name":"chol","value":"150"},{"name":"ogtt","value":"180"},{"name":"smoke","value":"0"},{"name":"alc","value":"0"},{"name":"phys","value":"1"},{"name":"preg","value":"0"},{"name":"insu","value":"50"}]};
+
+			$('#preset_selector').change(function(e){
+				$.each(presets[$(this).val()], function(key, value){
+					$('[name='+value['name']+']','#form').val(value['value']);
+				});
+				$('.request_code').text(JSON.stringify(presets[$(this).val()], null, 2));
+			});
+		});
+	</script>
+</head>
+<body>
+<nav class="nav">
+	<div class="nav-left">
+		<a href='/'><img class='image_logo col' src="{{url_for('static', filename='screen.png')}}" style="margin: 0px;max-width: 60px;max-height: 60px;left: 0;right: 0;"></img></a>
+		<a class="brand" href="/" style="padding-left:0px">Astr</a>
+	</div>
+	<div class="nav-right">
+		<div class="tabs">
+			<a href='/insights'>Insights</a>
+			<a class="active" href='/screen'>Screening</a>
+			<a href='/mind'>Mind</a>
+		</div>
+	</div>
+</nav>
+<div class='row heading_1'>
+	<p class='col is-center'>POST request and response:</p>
+</div>
+<div class='row'>
+	<code class='col request_code'>[
+  {
+    "name": "age",
+    "value": ""
+  },
+  {
+    "name": "sex",
+    "value": ""
+  },
+  {
+    "name": "height",
+    "value": ""
+  },
+  {
+    "name": "weight",
+    "value": ""
+  },
+  {
+    "name": "sbp",
+    "value": ""
+  },
+  {
+    "name": "dbp",
+    "value": ""
+  },
+  {
+    "name": "chol",
+    "value": ""
+  },
+  {
+    "name": "ogtt",
+    "value": ""
+  },
+  {
+    "name": "smoke",
+    "value": ""
+  },
+  {
+    "name": "alc",
+    "value": ""
+  },
+  {
+    "name": "phys",
+    "value": ""
+  },
+  {
+    "name": "preg",
+    "value": ""
+  },
+  {
+    "name": "insu",
+    "value": ""
+  }
+]</code>
+	<code class='col response_code'>Enter some values then click submit!</code>
+</div>
+<div class='row heading_2'>
+	<p class='is-center col'>Demo Data Entry:</p>
+</div>
+<div class='row is-center'>
+	<select id='preset_selector' class='col-3' style="margin-right:0px;">
+		<option name='default' value='0' selected>Choose Preset</option>
+		<option value='1'>Woman, Age 32</option>
+		<option value='2'>Man, Age 40</option>
+	</select>
+</div>
+<form id='form' class='row'>
+	<input class='col-2' type='number' id='age' name='age' placeholder='Age (years)'></input>
+	<input class='col-2' type='number' id='sex' name='sex' placeholder='Sex (0=F,1=M)'></input>
+	<input class='col-2' type='number' id='height' name='height' placeholder='Height (cm)'></input>
+	<input class='col-2' type='number' id='weight' name='weight' placeholder='Weight (kg)'></input>
+	<input class='col-2' type='number' id='sbp' name='sbp' placeholder='Systolic BP'></input>
+	<input class='col-2' type='number' id='dbp' name='dbp' placeholder='Diastolic BP'></input>
+	<input class='col-2' type='number' id='chol' name='chol' placeholder='Cholesterol'></input>
+	<input class='col-2' type='number' id='ogtt' name='ogtt' placeholder='Glucose'></input>
+	<input class='col-2' type='number' id='smoke' name='smoke' placeholder='Smoking? (0=N, 1=Y)'></input>
+	<input class='col-2' type='number' id='alc' name='alc' placeholder='Alcohol? (0=N, 1=Y)'></input>
+	<input class='col-2' type='number' id='phys' name='phys' placeholder='Physically Active? (0=N, 1=Y)'></input>
+	<input class='col-2' type='number' id='preg' name='preg' placeholder='Number of Pregancies'></input>
+	<input class='col-2' type='number' id='insu' name='insu' placeholder='Insulin'></input>
+</form>
+<div class='sub row is-center'>
+	<input class='col-2' type='submit'></input>
+</div>
+</body>
+</html>
